@@ -1,0 +1,128 @@
+  .login_form_container{
+      position: relative;
+      width: 500px;
+      height: 570px;
+      max-width: 500px;
+      max-height: 570px;
+      background: #040717;
+      border-radius: 50px 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 90px;
+  }
+  .login_form_container::before{     
+      position: absolute;
+      width: 170%;
+      height: 170%;
+      content: '';
+      background-image: conic-gradient(transparent, transparent, transparent, #ee00ff);
+      animation: rotate_border 6s linear infinite;
+  }
+  .login_form_container::after{    
+      position: absolute;
+      width: 170%;
+      height: 170%;
+      content: '';
+      background-image: conic-gradient(transparent, transparent, transparent, #00ccff);
+      animation: rotate_border 6s linear infinite;
+      animation-delay: -3s;
+
+  }
+  @keyframes rotate_border{
+      0%{
+          transform: rotate(0deg);
+      }
+      100%{
+          transform: rotate(360deg);
+      }
+  }
+  .login_form{
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      content: '';
+      background-color: #0c1022;
+      border-radius: 50px 5px;
+      inset: 8px;
+      padding: 50px 40px;
+      z-index: 10;
+      color: #00ccff;
+  
+  } 
+  .login_form h2{
+      font-size: 40px;
+      font-weight: 600;
+      text-align: center;
+  }
+  .input_group{
+      margin-top: 40px;
+      position:relative;
+      display:flex;
+      align-items: center;
+      justify-content: flex-start;
+  }
+  .input_text{
+      width: 95%;
+      height: 30px;
+      background: transparent;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid #00ccff;
+      font-size: 20px;
+      padding-left: 10px;
+      color: #00ccff;
+  
+  }
+  .fa{
+      font-size: 20px;
+  
+  }
+  .login_button{
+      position: relative;
+      width: 200px;
+      height: 20px;
+      transition: 1s;
+      margin-top: 20px;
+      
+  }
+  .login_button button{
+      text-decoration: none;
+      margin: auto;
+      color: #00ccff;
+      z-index: 10;
+      cursor: pointer;
+      font-size: 28px;
+      letter-spacing: 2px;
+      border: 1px solid #00ccff;
+      border-radius: 50px;
+      background-color: #0c1022;
+      display: flex;
+  }
+  .login_button:hover{
+    transform: scale(1.1);
+  }
+  .fotter {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+  
+  }
+  .fotter a{
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 18px;
+      margin: 10px;
+  }
+  .glowIcon {
+      text-shadow: 0 0 10px #00ccff;
+  }
+  @media screen and (max-width: 768px) {
+    .login_form_container{
+      width: 350px;
+      height: 410px;
+    }
+  }
