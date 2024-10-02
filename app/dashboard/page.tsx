@@ -1,72 +1,43 @@
 "use client";
 import Link from "next/link";
 import styles from "../../public/css/dashboard.module.css";
-import { useState, useEffect } from "react";
-
-interface Task {
-  id: number;
-  title: string;
-  description?: string;
-  status: 'NOT_STARTED' | 'IN_PROGRESS' | 'IN_REVIEW' | 'COMPLETE';
-}
-
+import Project from "../components/project";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
-
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const res = await fetch('/api/tasks');
-        const data = await res.json();
-        setTasks(data);
-      } catch (error) {
-        console.error('Error fetching tasks:', error);
-      }
-    };
+    console.log("Session>>>>", session);
+    console.log("Status>>>>", status);
+    if (status === "loading") return; // Wait for session to load
 
-    fetchTasks();
-  }, []);
-
-  const updateTask = async (id: number, updatedData: Partial<Task>) => {
-    try {
-      const res = await fetch('/api/tasks', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id, ...updatedData }),
-      });
-
-      const updatedTask = await res.json();
-
-      setTasks((prevTasks) =>
-        prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
-      );
-    } catch (error) {
-      console.error('Error updating task:', error);
+    if (!session) {
+      // If not logged in, redirect to login page
+      router.push("/");
     }
-  };
+  }, [session, status, router]);
+
+  if (status === "loading") {
+    // Optionally render a loading state
+    return <div>Loading...</div>;
+  }
+
 
   return (
     <div>
       <h1>Task Dashboard</h1>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <strong>{task.title}</strong> - {task.status}
-            {/* Update button to trigger the updateTask function */}
-            <button
-              onClick={() => updateTask(task.id, { title: 'Updated Title', status: 'IN_PROGRESS' })}
-            >
-              Mark as In Progress
-            </button>
-          </li>
-        ))}
-      </ul>
+      <p> Welcome, {session?.user?.email}</p>
+      <Project />
+      {/* Link to the homepage */}
+      <button className={styles.link}
+      ><Link href="/">Go back to Login
+          </Link></button>
     </div>
   );
 };
 
-export default Dashboard;
+export default Dashboard

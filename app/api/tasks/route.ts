@@ -11,7 +11,9 @@ export async function POST(req: Request) {
       data: {
         title,
         description,
-        user: { connect: { id: userId } },
+        project: {
+          connect: { id: Number(userId) },
+        },
       },
     });
     return NextResponse.json(task, { status: 200 });

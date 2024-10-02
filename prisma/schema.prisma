@@ -14,11 +14,57 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String
-  name     String?
-  tasks    Task[]
+  id        String   @unique @id @default(cuid()) 
+  email          String    @unique
+  password       String    // Password is required
+  name           String?
+  emailVerified  DateTime?
+  image          String?   // Optional for future use (avatar)
+  
+  // Relations
+  accounts       Account[]
+  sessions       Session[]
+  projects       Project[] // A user will have an array of projects
+}
+model Account {
+  id                 Int       @id @default(autoincrement())
+  userId             String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? 
+  access_token       String? 
+  expires_at         Int? 
+  token_type         String? 
+  scope              String? 
+  id_token           String? 
+  session_state      String? 
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id                 Int       @id @default(autoincrement())
+  sessionToken       String    @unique
+  userId             String
+  expires            DateTime
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier         String
+  token              String    @unique
+  expires            DateTime
+
+  @@unique([identifier, token])
+}
+model Project {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String?
+  tasks     Task[]   // A project will have an array of tasks
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Task {
@@ -26,9 +72,9 @@ model Task {
   title     String
   description String?
   status    String   @default("NOT_STARTED")
-  userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  projectId Int      // Task will belong to a project
+  project   Project  @relation(fields: [projectId], references: [id])
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

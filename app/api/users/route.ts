@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       data: {
         email,
         password,
-        name, // Optional
+        name, 
       },
     });
 
@@ -31,7 +31,7 @@ export async function GET() {
   try {
     const users = await prisma.user.findMany({
         include: {
-            tasks: true,
+            projects: true,
             },
     });
     return NextResponse.json(users, { status: 200 });
@@ -53,7 +53,7 @@ export async function PUT(req: Request) {
   
     try {
       const user = await prisma.user.update({
-        where: { id: Number(id) },
+        where: { id },
         data,
       });
   
