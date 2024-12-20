@@ -36,14 +36,15 @@ export async function POST(req: Request) {
   }
 }
 
-// Implement PUT and DELETE as needed
-
 export async function PUT(req: Request) {
-  const { id, updatedName } = await req.json();
+  const { id, updatedName, updatedDescription } = await req.json();
   try {
     const project = await prisma.project.update({
       where: { id },
-      data: { name: updatedName },
+      data: { 
+        name: updatedName, 
+        description: updatedDescription
+      },
     });
     return NextResponse.json(project);
   } catch (error) {

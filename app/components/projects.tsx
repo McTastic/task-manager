@@ -1,4 +1,4 @@
-import TaskTable from "./taskTable";
+// import TaskTable from "./taskTable";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ export default function Project(){
         <ul>
           {projects.map((project) => (
             <li key={project.id}>
-              <Link href={`/projects/${project.id}`}>{project.name}</Link>
+              <Link href={`/project/${project.id}`}>{project.name}</Link>
             </li>
           ))}
         </ul>

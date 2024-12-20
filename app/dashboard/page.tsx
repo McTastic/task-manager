@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import styles from "../../public/css/dashboard.module.css";
-import Project from "../components/project";
+import Projects from "../components/projects";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -31,7 +31,7 @@ const Dashboard = () => {
     <div>
       <h1>Task Dashboard</h1>
       <p> Welcome, {session?.user?.email}</p>
-      <Project />
+      <Projects />
       {/* Link to the homepage */}
       <button className={styles.link}
       ><Link href="/">Go back to Login
